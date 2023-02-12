@@ -1032,37 +1032,7 @@ headerType: 1
 conn.sendMessage(from, buttonMessage, {quoted:msg})
 }
 break
-case 'iklan':{
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-var strip = '```'
-var menu_list =`
-_Utamakan chat to the point_ 🚀
 
-*_Admin hanya melayani chat_*
-*_Seputar gurabot & transaksi_*
-
-${strip}Telpon/Spam blokir 🚫${strip}
-
-_Admin 1 : 0838-3455-8105_
-_Admin 2 : 0822-7991-5237_
-
-*SCRIPT BOT 🛒*
-_Rp50.000 - ( Topup & Fitur 300+ )_
-_Rp100.000 - ( Topup & Fitur 600+ )_
-
-*_Ready Nokos Whatsapp +1_*
-*_Harga Murah? Chat Admin_*
-*_Open Stok Terbatas⚠️_*
-
-*_VIA : DANA/OVO/QRIS_*
-
-*Minta SV? Sebut Nama 🙏*
-*No Admin Reall Hanya*
-*Di Atas, Selain Itu Clone*‼️
-`
-reply(menu_list)
-}
-break
 case 'menu':{
 if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
 const more = String.fromCharCode(8206)
@@ -1092,179 +1062,13 @@ headerType: 1
 conn.sendMessage(from, but_menu, {quoted:msg})
 }
 break
-case 'donate':
-case 'donasi':{
-var monoSpace = '```'
-let cekName = `${cekUser("name", sender)}`
-reply(donasiBot(cekName,ucapanWaktu))
-}
-break
+
 case 'infoowner':
 case 'ownerinfo':{
 reply(infoOwner())
 }
 break
-case 'infogempa':
-fetchJson(`https://saipulanuar.ga/api/info/gempa?apikey=jPHjZpQF`)
-.then(xg =>{
-reply(`*INFO GEMPA*
 
-*tanggal:* ${xg.result.tanggal}
-*jam:* ${xg.result.jam}
-*datetime:* ${xg.result.datetime}
-*coordinates:* ${xg.result.coordinates}
-*lintang:* ${xg.result.lintang}
-*bujur:* ${xg.result.bujur}
-*magnitude:* ${xg.result.magnitude}
-*kedalaman:* ${xg.result.kedalaman}
-*wilayah:* ${xg.result.wilayah}
-*potensi:* ${xg.result.potensi}
-*dirasakan:* ${xg.result.dirasakan}`)
-})
-break
-case 'wikimedia':{
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply('Contoh:\n#wikimedia viral')
-fetchJson(`https://saipulanuar.ga/api/search/wikimedia?query=${q}&apikey=jPHjZpQF`)
-.then(wk =>{
-var text_wikimedia =`*WIKIMEDIA SEARCH*
-*title:* ${wk.result.title}
-*source:* ${wk.result.source}
-*author:* wikimedia`
-conn.sendMessage(from, { image:{url:wk.result.image}, caption:text_wikimedia}, {quoted:msg})
-})
-}
-break
-case 'joker':
-case 'digital':
-case 'nulis':
-case 'nulis2':
-case 'quoteser':
-case 'quobucin':{
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply(`Contoh:\n${prefix+command} saya bukan wibu`)
-reply(mess.wait)
-var buc = `https://saipulanuar.ga/api/textmaker/${command}?text=${q}&apikey=jPHjZpQF`
-conn.sendMessage(from, { image:{url:buc}, caption:'Done!'}, {quoted:msg})
-}
-break
-case 'attp2':
-case 'attp':
-case 'ttp2':
-case 'ttp':{
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply(`Contoh:\n${prefix+command} saya wibu`)
-var nyz1 = await getBuffer(`https://saipulanuar.ga/api/maker/${command}?text=${q}&apikey=jPHjZpQF`)
-fs.writeFileSync('getpp.jpeg', nyz1)
-await ffmpeg("getpp.jpeg")
-.input("getpp.jpeg")
-.on('error', function (error) { only("error", conn, from) })
-.on('end', function () {conn.sendMessage(from, { sticker: {url: './getpp.webp'}, mimetype: 'image/webp' })})
-.addOutputOptions([`-vcodec`, `libwebp`, `-vf`, `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
-.toFormat('webp')
-.save('./getpp.webp')
-await sleep(5000)
-fs.unlinkSync('./getpp.jpeg')
-fs.unlinkSync('./getpp.webp')
-}
-break
-case 'pinterest':
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply(`Contoh:\n${prefix+command} loli`)
-reply(mess.wait)
-fetchJson(`https://saipulanuar.ga/api/search/pinterest?query=${q}&apikey=jPHjZpQF`)
-.then(pin =>{
-var media = pickRandom(pin.result)
-conn.sendMessage(from, { image:{url:media}, caption:`Done *${q}*`}, {quoted:msg})
-})
-break
-case 'tts':{
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply(`Contoh:\n${prefix+command} hallo bro`)
-var tts = `https://saipulanuar.ga/api/text-to-audio/tts?text=${q}&idbahasa=id&apikey=jPHjZpQF`
-conn.sendMessage(sender, {audio:{url:tts}, mimetype:'audio/mpeg', ptt:true}, {quoted:msg})
-}
-break
-case 'playmp3':
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply('*Contoh:*\n#playmp3 preset angel baby 30 detik')
-fetchJson(`https://api-yogipw.herokuapp.com/api/yt/playmp3?query=${q}`)
-.then(z=>{
-var text_playmp3 =`*YOUTUBE PLAYMP3*
-
-*title:* ${z.title}
-*channel:* ${z.channel}
-*published:* ${z.published}
-*views:* ${z.views}
-*type:* audio/mp3
-
-Media sedang dikirim.`
-reply(text_playmp3)
-conn.sendMessage(sender, {audio:{url:z.url}, mimetype:'audio/mpeg', fileName: z.title+'mp3'}, {quoted:msg})
-if (isGroup) return reply('Media sudah dikirim dichat pribadi.')
-})
-break
-case 'soundcloud':
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply('*Contoh:*\n#soundcloud https://soundcloud.com/ndaa-212683099/dj-coba-kau-ingat-ingat-kembali-seharusnya-aku-jungle-dutch-terbaru-2021-full-bass-viral-tik?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing')
-var yurl = q
-reply(mess.wait)
-fetchJson(`https://saipulanuar.ga/api/download/soundcloud?url=${yurl}&apikey=jPHjZpQF`).then(sdc =>{
-reply(`*SOUNDCLOUD DOWNLOAD*
-
-*author:* Lexxy Official
-*title:* ${sdc.result.title}
-*duration:* ${sdc.result.duration}
-*quality:* ${sdc.result.quality}
-
-Audio sedang dikirim...
-
-*Note:*
-jika reply message status undefined
-itu artinya url tidak ditemukan.`)
-conn.sendMessage(sender, {audio:{url:sdc.result.download}, mimetype:'audio/mpeg', fileName: sdc.result.title+'mp3'}, {quoted:msg})
-if (isGroup) return reply('Audio sudah dikirim dichat pribadi.')
-})
-break
-case 'playmp4':
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply('*Contoh:*\n#playmp4 preset angel baby 30 detik')
-fetchJson(`https://api-yogipw.herokuapp.com/api/yt/playmp4?query=${q}`)
-.then(zz=>{
-var text_playmp4 =`*YOUTUBE PLAYMP4*
-
-*title:* ${zz.title}
-*channel:* ${zz.channel}
-*published:* ${zz.published}
-*views:* ${zz.views}
-*type:* video/mp4
-
-Media sedang dikirim.`
-reply(text_playmp4)
-conn.sendMessage(sender, {video:{url:zz.url}, caption:'Done!'}, {quoted:msg})
-if (isGroup) return reply('Media sudah dikirim dichat pribadi.')
-})
-break
-case 'mediafire':
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply('*Contoh:*\n#mediafire https://www.mediafire.com/file/451l493otr6zca4/V4.zip/file')
-let isLinks = q.match(/(?:https?:\/{2})?(?:w{3}\.)?mediafire(?:com)?\.(?:com|be)(?:\/www\?v=|\/)([^\s&]+)/)
-if (!isLinks) return reply('Link yang kamu berikan tidak valid')
-reply('*Mengunduh Media...*')
-let baby1 = await mediafireDl(`${isLinks}`)
-if (baby1[0].size.split('MB')[0] >= 100) return reply('File Melebihi Batas '+util.format(baby1))
-let result4 = `-----[ *MEDIAFIRE DOWNLOADER* ]-----
-
-*Name* : ${baby1[0].nama}
-*Size* : ${baby1[0].size}
-*Type* : ${baby1[0].mime}
-
-_Wait Mengirim file..._
-`
-reply(result4)
-if (isGroup) return reply('*document udah dikirim ke chat pribadi bot.*')
-conn.sendMessage(sender, {document:{url:baby1[0].link}, fileName:baby1[0].nama, mimetype: baby1[0].mime}, {quoted:msg}).catch ((err) => reply('Gagal saat mendownload File'))
-break
 case 'grupbot':
 case 'groupbot':
 if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
@@ -1365,27 +1169,7 @@ room +=`*ID ROOM ${x.id}*
 reply(room)
 }
 break
-case 'daftarprem':
-mentions(`*Ingin Jadi Premium?*
-*Silahkan Pilih Waktu Nya*
 
-*List Harga*
-Rp5.000 › 5day
-Rp10.000 › 10day
-Rp15.000 › 15day
-Rp20.000 › 20day
-
-*Dan Seterusnya...*
-*day › hari*
-
-*Keuntungan Premium*
-- _Bisa Add Bot 1 Group_
-- _Bisa Gunain Fitur Premium_
-
-*Minat Jadi Premium?*
-*Hubungi Owner*
-@${setting.ChatOwner.split('@')[0]}`, [setting.ChatOwner])
-break
 case 'sewabot':
 mentions(`*SEWA BOT*
 
@@ -1612,105 +1396,7 @@ reply('Pesan Menfess kamu sudah dikirim, Sedang menunggu untuk diterima.')
 if (isGroup) return reply("Pesan menfess kamu sudah dikirim.")
 }
 break
-case 'sc': case 'script':{
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-let text_buysc =`*_Mau beli scriptnya? harga murah kok._*
 
-*Contact Person 📞*
-
-*Admin1:*
-*Wa.me/6283834558105*
-
-*Admin2:*
-*Wa.me/6282279915237*
-
-_*Harga Normal :*_ ~Rp150.000~
-*_Harga Promo : Rp100.000_*
-
-_Sudah Termasuk Tutorial_
-_Script Sudah Disusun Rapih_
-_Size Script Sudah Ringan_
-_Anti Ngelag - Anti Delay_
-_Anti Spam - Anti Call_
-_Total Fitur 600+_
-_Topup & Deposit_`
-conn.sendMessage(from, { text: text_buysc }, { quoted: msg })
-}
-break
-case 'request': {
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply(`Masukan parameter text\n*Contoh:*\n${prefix+command} Req fitur antilink bg`)
-var teks = `*| REQUEST FITUR |*`
-var teks1 = `\n\nNomor : @${sender.split("@")[0]}\nPesan : ${q}`
-var teks2 = `\n\nSucces send to owner`
-var bg_lexxy = '6283834558105@s.whatsapp.net'
-conn.sendMessage(bg_lexxy, {text: teks + teks1, mentions:[sender]}, {quoted:msg})
-conn.sendMessage(from, {text: teks + teks2 + teks1, mentions:[sender]}, {quoted:msg})
-}
-break
-case 'report': {
-if (cekUser("id", sender) == null) return reply(mess.OnlyUser)
-if (!q) return reply(`Masukan parameter text\n*Contoh:*\n${prefix+command} Fitur anu error bang`)
-var teks = `*| REPORT FITUR |*`
-var teks1 = `\n\nNomor : @${sender.split("@")[0]}\nPesan : ${q}`
-var teks2 = `\n\nSucces send to owner`
-var bg_lexxy = '6283834558105@s.whatsapp.net'
-conn.sendMessage(bg_lexxy, {text: teks + teks1, mentions:[sender]}, {quoted:msg})
-conn.sendMessage(from, {text: teks + teks2 + teks1, mentions:[sender]}, {quoted:msg})
-}
-break
-case 'createcp':
-if (!isOwner) return reply(mess.OnlyOwner)
-if (!q) return reply(`*CREATECP ACCOUNT*\nExample:\n#${command} domain|package\n\nContoh:\n#${command} lexxyapi.com|lexxy`)
-let usern = `USER${makeid(6)}`
-let domain = q.split('|')[0] 
-let pekeg = q.split('|')[1]
-if (!domain) return reply('Domain wajib di isi!!')
-if (!pekeg) return reply('Package Wajib di isi!!')
-reply('Creating please wait... ⏳')
-axios.get(`https://${hostwhm}:2087/json-api/createacct?api.version=1&username=${usern}&contactemail=lexxyofficial24@gmail.com&plan=${pekeg}&domain=${domain}`, authWhm)
-.then(response => {     
-let np = response.data
-if (np.metadata.result == 0) {
-reply(np.metadata.reason)
-} else {
-let dsta = np.metadata.output.raw;
-var substr = dsta.substring(
-dsta.toString().indexOf("+===================================+")
-); //substr = 'word. Hello!'
-let xxybot = substr.split("| Language: en")[0];
-reply(`${xxybot}\n\nLogin : https://${hostwhm}:2087`)
-}});
-break
-case 'listcp':
-if (!isOwner) return reply(mess.OnlyOwner)
-reply('Wait Getting List Account info....')
-axios.get(`https://${hostwhm}:2087/json-api/listaccts?api.version=1`, authWhm)
-.then((risol) => {
-let lisol = risol.data
-var ttdy = lisol.data.acct
-let ogh = `*── 「 LIST CPANEL 」 ──*\nTotal Akun : ${ttdy.length}\n`
-for (let i = 0; i < ttdy.length; i++) {
-ogh += `
-\n
-─────[\`\`\` ${ttdy[i].user} \`\`\` ]────────
-*▢ Maxsub* : ${ttdy[i].maxsub}
-*▢ Maxsql* : ${ttdy[i].maxsql}
-*▢ Startdate* : ${ttdy[i].startdate}
-*▢ Disklimit* : ${ttdy[i].disklimit}
-*▢ Maxlst* : ${ttdy[i].maxlst}
-*▢ Plan* : ${ttdy[i].plan}
-*▢ Owner*: ${ttdy[i].owner}
-*▢ IP* : ${ttdy[i].ip}
-*▢ Domain* : ${ttdy[i].domain}
-*▢ Diskused* : ${ttdy[i].diskused}
-*▢ Maxaddons* : ${ttdy[i].maxaddons}
-*▢ Suspendreason* : ${ttdy[i].suspendreason}
-─────────────────\n\n`
-}
-reply(ogh)
-})
-break
 case 'terminate':
 if (!isOwner) return reply(mess.OnlyOwner)
 if (args.length < 2) return reply(`Kirim perintah #${command} username`)
@@ -1763,7 +1449,7 @@ reply(teks)
 break
 
 // STORE FUN
-case 'list':
+case 'l':
 if (!isGroup) return reply(mess.OnlyGrup)
 if (db_respon_list.length === 0) return reply(`Belum ada list message di database`)
 if (!isAlreadyResponListGroup(from, db_respon_list)) return reply(`Belum ada list message yang terdaftar di group ini`)
@@ -1787,7 +1473,7 @@ title: groupName, rows: arr_rows
 }
 conn.sendMessage(from, listMsg)
 break
-case 'addlist':
+case 'addl':
 if (!isGroup) return reply(mess.OnlyGrup)
 if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
 var args1 = q.split("@")[0]
@@ -1797,7 +1483,7 @@ if (isAlreadyResponList(from, args1, db_respon_list)) return reply(`List respon 
 addResponList(from, args1, args2, false, '-', db_respon_list)
 reply(`Berhasil menambah List menu : *${args1}*`)
 break
-case 'dellist':
+case 'dell':
 if (!isGroup) return reply(mess.OnlyGrup)
 if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
 if (db_respon_list.length === 0) return reply(`Belum ada list message di database`)
@@ -1806,7 +1492,7 @@ if (!isAlreadyResponList(from, q, db_respon_list)) return reply(`List respon den
 delResponList(from, q, db_respon_list)
 reply(`Sukses delete list message dengan key *${q}*`)
 break
-case 'update':
+case 'u':
 if (!isGroup) return reply(mess.OnlyGrup)
 if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
 var args1 = q.split("@")[0]
